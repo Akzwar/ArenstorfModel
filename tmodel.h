@@ -1,9 +1,9 @@
 #ifndef TMODEL_H
 #define TMODEL_H
-#include <Matrix.h>
+#include "Matrix.h"
 class TModel
 {
-private:
+protected:
     TMatrix* Result;
     double SamplingIncrement;
     double t0;
@@ -11,10 +11,20 @@ private:
     TVect* InitConditions;
 public:
     TModel(double t0, double tk,TVect* InitConditions);
-    void addResult(const TVect* Vect, double t);
+    TModel(double t0, double tk)
+    {
+        this->t0=t0;
+        this->tk=tk;
+    }
+    TModel()
+    {
+
+    }
+
+    void addResult(TVect* Vect, double t);
     TVect* getInitConditions();
     TMatrix* getResult();
-    virtual TVect* getRight(TVect* Vect, double h);
+    TVect* getRight(TVect* Vect, double h);
     double getSamplingIncrement();
     double getT0();
     double getTk();
@@ -22,8 +32,6 @@ public:
 
 class TArenstorfModel : public TModel
 {
-private:
-    const double mu=0.012277471;
 public:
     TArenstorfModel(double t0, double tk);
     TVect* getRight(TVect* Vect, double h);

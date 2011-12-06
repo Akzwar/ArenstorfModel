@@ -1,6 +1,6 @@
 #include "tmodel.h"
 #include <math.h>
-#include <Vect.h>
+#define mu 0.012277471
 TModel::TModel(double t0, double tk, TVect *InitConditions)
 {
     this->Result = new TMatrix(InitConditions->getLength()+1,1);
@@ -9,7 +9,7 @@ TModel::TModel(double t0, double tk, TVect *InitConditions)
     this->InitConditions=InitConditions;
 }
 
-TModel::addResult(const TVect *Vect, double t)
+void TModel::addResult(TVect *Vect, double t)
 {
     Vect->addElement(t);
     Result->addRow(Vect);
@@ -40,17 +40,15 @@ double TModel::getTk()
     return this->tk;
 }
 
-TArenstorfModel::TArenstorfModel(double t0, double tk)
+TArenstorfModel::TArenstorfModel(double t0, double tk): TModel()
 {
-    this->t0=t0;
-    this->tk=tk;
-    double n=new double[6];
+    double* n=new double[6];
     n[0]=0.994;
     n[1]=0;
     n[2]=0;
     n[3]=-2.00158510637908252240537862224;
-    double D1=pow(pow(n[0]+this->mu,2)+pow(n[1],2),3/2);
-    double D2=pow(pow(n[0]-(1-this->mu),2)+pow(n[1],2),3/2);
+    double D1=pow(pow(n[0]+mu,2)+pow(n[1],2),3/2);
+    double D2=pow(pow(n[0]-(1-mu),2)+pow(n[1],2),3/2);
     n[4]=n[0]+2*n[3]-(mu*((n[0]+mu)/D1)-mu*((n[0]-(1-mu))/D2));
     n[5]=n[1]-2*n[2]-((1-mu)*((n[1])/D1)-mu*((n[1])/D2));
     InitConditions=new TVect(6,n);
@@ -61,6 +59,8 @@ TArenstorfModel::TArenstorfModel(double t0, double tk)
 TVect* TArenstorfModel::getRight(TVect *Vect, double h)
 {
     TVect* resultVect=new TVect(6);
+    double D1=pow(pow(Vect->getElement(0)+mu,2)+pow(Vect->getElement(1),2),3/2);
+    double D2=pow(pow(Vect->getElement(0)-(1-mu),2)+pow(Vect->getElement(1),2),3/2);
     resultVect->setElement(0,Vect->getElement(0)+Vect->getElement(2)*h);
     resultVect->setElement(1,Vect->getElement(1)+Vect->getElement(3)*h);
     resultVect->setElement(2,Vect->getElement(2)+Vect->getElement(4)*h);
