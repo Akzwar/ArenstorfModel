@@ -54,6 +54,7 @@ TArenstorfModel::TArenstorfModel(double t0, double tk): TModel()
     InitConditions=new TVect(6,n);
     delete [] n;
     this->Result = new TMatrix(InitConditions->getLength()+1,1);
+    this->addResult(this->InitConditions,0);
 }
 
 TVect* TArenstorfModel::getRight(TVect *Vect, double h)

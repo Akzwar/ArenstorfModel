@@ -10,11 +10,17 @@ TARGET = ArenstorfModel
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
+SOURCES += main.cpp \
         mainwindow.cpp \
-    integrator.cpp
+    tmodel.cpp \
+    tintegrator.cpp \
+    Vect.cpp \
+    Matrix.cpp \
 
 HEADERS  += mainwindow.h \
-    integrator.h
+    tmodel.h \
+    tintegrator.h \
+    Vect.h \
+    Matrix.h
 
 FORMS    += mainwindow.ui

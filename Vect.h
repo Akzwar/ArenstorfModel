@@ -9,7 +9,7 @@ private:
     double *data;
     int Length;
 public:
-    void setLength(int newcount);
+    void setLength(int Length);
     int getLength();
     TVect(int Count);
     TVect(int Count, double *n);
@@ -65,4 +65,5 @@ public:
     double getElement(int number);
     double getMagnitude();
     void setElement(int number,double value);
+    void addElement(double Value);
 };

@@ -33,6 +33,12 @@ void TVect::setElement(int number,double value)
    this->data[number]=value;
 }
 
+void TVect::addElement(double Value)
+{
+    this->setLength(this->getLength()+1);
+    this->setElement(this->Length-1,Value);
+}
+
 double TVect::getElement(int number)
 {
   return data[number];
